@@ -26,15 +26,15 @@
 
 ## 安装方式
 
-以下命令默认在仓库根目录执行。
+以下命令默认在仓库根目录执行。下面用**软链接**挂入技能目录：在本仓库 `git pull` 后内容会同步更新；若移动或删除本仓库，需重新执行安装。若某客户端不认软链，可改用 `cp -R research-paper-writing <目标目录>/`。
 
 ### 1) Codex
 
-将技能复制到 `$CODEX_HOME/skills/`：
+将技能软链接到 `$CODEX_HOME/skills/`：
 
 ```bash
 mkdir -p "$CODEX_HOME/skills"
-cp -R research-paper-writing "$CODEX_HOME/skills/"
+ln -sfn "$(pwd)/research-paper-writing" "$CODEX_HOME/skills/research-paper-writing"
 ```
 
 使用示例：
@@ -51,28 +51,48 @@ Use $research-paper-writing to improve my paper's Introduction.
 
 ```bash
 mkdir -p "$HOME/.claude/skills"
-cp -R research-paper-writing "$HOME/.claude/skills/"
+ln -sfn "$(pwd)/research-paper-writing" "$HOME/.claude/skills/research-paper-writing"
 ```
 
 项目级安装：
 
 ```bash
 mkdir -p .claude/skills
-cp -R research-paper-writing .claude/skills/
+ln -sfn "$(pwd)/research-paper-writing" .claude/skills/research-paper-writing
 ```
 
 使用时建议在提示词中显式指定，例如：`Please use the research-paper-writing skill`。
 
 ### 3) Gemini
 
-可将该技能复制到 Gemini 的技能目录：
+可将该技能软链接到 Gemini 的技能目录：
 
 ```bash
 mkdir -p "$HOME/.gemini/skills"
-cp -R research-paper-writing "$HOME/.gemini/skills/"
+ln -sfn "$(pwd)/research-paper-writing" "$HOME/.gemini/skills/research-paper-writing"
 ```
 
 随后在 Gemini 中直接给出具体任务（例如：重写 Abstract 并做 claim-evidence 检查）。
+
+### 4) Cursor
+
+可将技能安装到用户级或项目级目录（Cursor 使用 `.cursor/skills/`；请勿放入 `~/.cursor/skills-cursor/`，该目录由 Cursor 保留给内置技能）。
+
+用户级（全局）：
+
+```bash
+mkdir -p "$HOME/.cursor/skills"
+ln -sfn "$(pwd)/research-paper-writing" "$HOME/.cursor/skills/research-paper-writing"
+```
+
+项目级（随仓库共享）：
+cp -R research-paper-writing "$HOME/.gemini/skills/"
+```bash
+mkdir -p .cursor/skills
+ln -sfn "$(pwd)/research-paper-writing" .cursor/skills/research-paper-writing
+```
+
+使用时在对话中显式说明即可，例如：`请使用 research-paper-writing 技能帮我改写 Introduction`。
 
 ## 致谢
 
